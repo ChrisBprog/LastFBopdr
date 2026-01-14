@@ -1,0 +1,49 @@
+{
+  "inspections": [
+    {
+      "id": 1,
+      "title": "Fire Safety Inspection",
+      "location": "Warehouse A",
+      "inspector": "Tino Martin",
+      "status": "completed",
+      "inspectionDate": "2025-01-05",
+      "score": 92
+    },
+    {
+      "id": 2,
+      "title": "Electrical Inspection",
+      "location": "Office Building",
+      "inspector": "Jan Smit",
+      "status": "completed",
+      "inspectionDate": "2025-01-03",
+      "score": 88
+    },
+    {
+      "id": 3,
+      "title": "Health & Safety Check",
+      "location": "Factory Floor",
+      "inspector": "Frans Bauer",
+      "status": "completed",
+      "inspectionDate": "2025-01-02",
+      "score": 95
+    },
+    {
+      "id": 4,
+      "title": "Environmental Inspection",
+      "location": "Site B",
+      "inspector": "Mart Hoogkramer",
+      "status": "completed",
+      "inspectionDate": "2024-12-29",
+      "score": 90
+    },
+    {
+      "id": 5,
+      "title": "Machine Safety Inspection",
+      "location": "Production Line 3",
+      "inspector": "André Hazes",
+      "status": "completed",
+      "inspectionDate": "2024-12-20",
+      "score": 85
+    }
+  ]
+}

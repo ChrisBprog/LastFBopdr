@@ -14,6 +14,9 @@ import '@ionic/vue/css/padding.css'
 import '@ionic/vue/css/flex-utils.css'
 import '@ionic/vue/css/display.css'
 
+// CSS
+import './theme/variables.css'
+
 const app = createApp(App)
 app.use(IonicVue)
 app.use(router)

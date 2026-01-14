@@ -9,47 +9,95 @@
 
     <!-- CONTENT -->
     <ion-content class="ion-padding">
+      <!-- MENU / TEGELS -->
       <div class="grid">
-        <!-- Kaart 1 -->
         <ion-card button @click="openFunctie('rapporten')">
           <ion-card-header>
-            <ion-card-title><svg-icon type="mdi" :path="icon1" size="75" /></ion-card-title>
+            <ion-card-title>
+              <svg-icon class="card-icon" type="mdi" :path="icon1" size="75" />
+            </ion-card-title>
           </ion-card-header>
           <ion-card-content>
             Bekijk toegewezen rapportages.
           </ion-card-content>
         </ion-card>
 
-        <!-- Kaart 2 -->
-        <ion-card button @click="openFunctie('gebruikers')">
+        <ion-card button @click="openFunctie('inspecties')">
           <ion-card-header>
-            <ion-card-title><svg-icon type="mdi" :path="icon2" size="75" /></ion-card-title>
+            <ion-card-title>
+              <svg-icon class="card-icon" type="mdi" :path="icon2" size="75" />
+            </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            Bekijk uitgevoerde rapportages.
+            Bekijk uitgevoerde inspecties.
           </ion-card-content>
         </ion-card>
 
-        <!-- Kaart 3 -->
         <ion-card button @click="openFunctie('instellingen')">
           <ion-card-header>
-            <ion-card-title><svg-icon type="mdi" :path="icon3" size="75" /></ion-card-title>
+            <ion-card-title>
+              <svg-icon class="card-icon" type="mdi" :path="icon3" size="75" />
+            </ion-card-title>
           </ion-card-header>
           <ion-card-content>
             Instellingen.
           </ion-card-content>
         </ion-card>
 
-        <!-- Kaart 4 -->
         <ion-card button @click="openFunctie('ondersteuning')">
           <ion-card-header>
-            <ion-card-title><svg-icon type="mdi" :path="icon4" size="75" /></ion-card-title>
+            <ion-card-title>
+              <svg-icon class="card-icon" type="mdi" :path="icon4" size="75" />
+            </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            Bekijk de kennisbase/documentatie.
+            Kennisbank & documentatie.
           </ion-card-content>
         </ion-card>
       </div>
+
+      <!-- INSPECTIES LIJST -->
+      <ion-list v-if="inspections.length">
+        <ion-list-header>
+          <ion-label>Recent Inspections</ion-label>
+        </ion-list-header>
+
+        <ion-item
+          button
+          v-for="inspection in inspections"
+          :key="inspection.id"
+          @click="selectInspection(inspection)"
+        >
+          <ion-label>
+            <h2>{{ inspection.title }}</h2>
+            <p>
+              {{ inspection.location }} •
+              {{ formatDate(inspection.inspectionDate) }}
+            </p>
+          </ion-label>
+
+          <ion-badge color="success">
+            {{ inspection.score }}%
+          </ion-badge>
+        </ion-item>
+      </ion-list>
+
+      <!-- INSPECTIE DETAILS (ONDER DE LIJST) -->
+      <ion-card v-if="selectedInspection" class="inspection-details">
+        <ion-card-header>
+          <ion-card-title>
+            {{ selectedInspection.title }}
+          </ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p><strong>Location:</strong> {{ selectedInspection.location }}</p>
+          <p><strong>Inspector:</strong> {{ selectedInspection.inspector }}</p>
+          <p><strong>Date:</strong> {{ formatDate(selectedInspection.inspectionDate) }}</p>
+          <p><strong>Status:</strong> {{ selectedInspection.status }}</p>
+          <p><strong>Score:</strong> {{ selectedInspection.score }}%</p>
+        </ion-card-content>
+      </ion-card>
     </ion-content>
 
     <!-- FOOTER -->
@@ -62,14 +110,14 @@
 </template>
 
 <script>
-import SvgIcon from '@jamescoyle/vue-icon';
-import { 
+import SvgIcon from '@jamescoyle/vue-icon'
+import {
   mdiFileChart,
   mdiFileChartCheckOutline,
-  mdiHomeLightbulb, 
-  mdiCogs, 
+  mdiHomeLightbulb,
+  mdiCogs
+} from '@mdi/js'
 
-} from '@mdi/js';
 import {
   IonPage,
   IonHeader,
@@ -81,11 +129,19 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCardContent,
+  IonList,
+  IonListHeader,
+  IonItem,
+  IonLabel,
+  IonBadge
 } from '@ionic/vue'
+
+import { getInspections } from '@/services/inspectionService'
 
 export default {
   name: 'DashboardPage',
   components: {
+    SvgIcon,
     IonPage,
     IonHeader,
     IonToolbar,
@@ -96,39 +152,60 @@ export default {
     IonCardHeader,
     IonCardTitle,
     IonCardContent,
+    IonList,
+    IonListHeader,
+    IonItem,
+    IonLabel,
+    IonBadge
   },
-  name: "my-cool-component",
+  data() {
+    return {
+      icon1: mdiFileChart,
+      icon2: mdiFileChartCheckOutline,
+      icon3: mdiCogs,
+      icon4: mdiHomeLightbulb,
+      inspections: [],
+      selectedInspection: null
+    }
+  },
+  async mounted() {
+    const result = await getInspections()
 
-	components: {
-		SvgIcon
-	},
-
-	data() {
-		return {
-	  		icon1: mdiFileChart, 
-            icon2: mdiFileChartCheckOutline,
-            icon3: mdiCogs,
-            icon4: mdiHomeLightbulb,
-
-		}
-    },
+    // sorteer inspecties op datum (nieuwste eerst)
+    this.inspections = result.sort(
+      (a, b) => new Date(b.inspectionDate) - new Date(a.inspectionDate)
+    )
+  },
   methods: {
     openFunctie(naam) {
-      // Voor nu: een alert. Later kun je router.push gebruiken.
       alert(`Functie geopend: ${naam}`)
     },
-  },
+    formatDate(date) {
+      return new Date(date).toLocaleDateString('nl-NL')
+    },
+    selectInspection(inspection) {
+      this.selectedInspection = inspection
+    }
+  }
 }
 </script>
 
 <style scoped>
-/* 2x2 grid voor de vier functies */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.card-icon {
+  color: var(--ion-color-primary);
+}
+
+.inspection-details {
   margin-top: 1rem;
 }
+
 ion-page {
   display: flex;
   flex-direction: column;
@@ -136,7 +213,6 @@ ion-page {
 }
 
 ion-content {
-  flex: 1 1 auto; /* zorgt dat content de ruimte tussen header en footer vult */
+  flex: 1 1 auto;
 }
-
 </style>
