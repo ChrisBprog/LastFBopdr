@@ -44,6 +44,15 @@
       "status": "open",
       "inspectionDate": "2024-12-20",
       "score": 85
+    },
+    {
+      "id": 6,
+      "title": "Building Safety Inspection",
+      "location": "Head Office",
+      "inspector": "Guus Meeuwis",
+      "status": "completed",
+      "inspectionDate": "2024-12-10",
+      "score": 100
     }
   ]
 }
