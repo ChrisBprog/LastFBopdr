@@ -9,9 +9,9 @@ import { IonApp, IonRouterOutlet } from '@ionic/vue'
 
 export default {
   name: 'App',
-  components: { IonApp, IonRouterOutlet }
-
-};
+  components: {
+    IonApp,
+    IonRouterOutlet
+  }
+}
 </script>
-
-<style scoped></style>

@@ -12,3 +12,11 @@
   color: var(--ion-color-secondary);
 }
 
+:root {
+  --ion-color-secondary: #475E6C;
+  --ion-color-secondary-rgb: 71,94,108;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255,255,255;
+  --ion-color-secondary-shade: #3f5461;
+  --ion-color-secondary-tint: #596f7d;
+}

@@ -1,7 +1,7 @@
 import { Inspection } from '@/models/Inspection'
 
 const API_URL =
-  'https://my-json-server.typicode.com/ChrisBprog/inspection-api/inspections'
+  'https://my-json-server.typicode.com/ChrisBprog/LastFBopdr/inspections'
 
 export async function getInspections() {
   const response = await fetch(API_URL)

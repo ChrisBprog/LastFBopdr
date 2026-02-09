@@ -18,7 +18,8 @@
     "@mdi/js": "^7.4.47",
     "ionicons": "^8.0.13",
     "vue": "^3.5.22",
-    "vue-router": "^4.6.3"
+    "vue-router": "^4.6.3",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",

@@ -1,121 +1,102 @@
 <template>
   <ion-page>
+
     <!-- HEADER -->
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>Mijn Dashboard</ion-title>
+
+        <!-- HOME -->
+        <ion-buttons slot="start">
+          <ion-button color="light" @click="goHome">
+            <ion-icon :icon="homeOutline" />
+          </ion-button>
+        </ion-buttons>
+
+        <ion-title>Dashboard</ion-title>
+
+        <!-- LOGOUT -->
+        <ion-buttons slot="end">
+          <ion-button color="light" @click="logout">
+            Logout
+          </ion-button>
+        </ion-buttons>
+
       </ion-toolbar>
     </ion-header>
 
     <!-- CONTENT -->
     <ion-content class="ion-padding">
-      <!-- MENU / TEGELS -->
       <div class="grid">
-        <ion-card button @click="openFunctie('rapporten')">
+
+        <!-- OPEN INSPECTIONS -->
+        <ion-card button @click="goTo('/open-inspections')">
           <ion-card-header>
             <ion-card-title>
-              <svg-icon class="card-icon" type="mdi" :path="icon1" size="75" />
+              <svg-icon class="card-icon" type="mdi" :path="iconOpen" size="64" />
             </ion-card-title>
           </ion-card-header>
+
           <ion-card-content>
-            Bekijk toegewezen rapportages.
+            Openstaande inspecties
+            <p class="count">{{ openCount }}</p>
           </ion-card-content>
         </ion-card>
 
-        <ion-card button @click="openFunctie('inspecties')">
+        <!-- COMPLETED INSPECTIONS -->
+        <ion-card button @click="goTo('/completed-inspections')">
           <ion-card-header>
             <ion-card-title>
-              <svg-icon class="card-icon" type="mdi" :path="icon2" size="75" />
+              <svg-icon class="card-icon" type="mdi" :path="iconCompleted" size="64" />
             </ion-card-title>
           </ion-card-header>
+
           <ion-card-content>
-            Bekijk uitgevoerde inspecties.
+            Uitgevoerde inspecties
+            <p class="count">{{ completedCount }}</p>
           </ion-card-content>
         </ion-card>
 
-        <ion-card button @click="openFunctie('instellingen')">
+        <!-- SETTINGS -->
+        <ion-card button @click="goTo('/settings')">
           <ion-card-header>
             <ion-card-title>
-              <svg-icon class="card-icon" type="mdi" :path="icon3" size="75" />
+              <svg-icon class="card-icon" type="mdi" :path="iconSettings" size="64" />
             </ion-card-title>
           </ion-card-header>
+
           <ion-card-content>
-            Instellingen.
+            Instellingen
           </ion-card-content>
         </ion-card>
 
-        <ion-card button @click="openFunctie('ondersteuning')">
+        <!-- KNOWLEDGE BASE -->
+        <ion-card button @click="goTo('/knowledge-base')">
           <ion-card-header>
             <ion-card-title>
-              <svg-icon class="card-icon" type="mdi" :path="icon4" size="75" />
+              <svg-icon class="card-icon" type="mdi" :path="iconKnowledge" size="64" />
             </ion-card-title>
           </ion-card-header>
+
           <ion-card-content>
-            Kennisbank & documentatie.
+            Knowledge base
           </ion-card-content>
         </ion-card>
+
       </div>
-
-      <!-- INSPECTIES LIJST -->
-      <ion-list v-if="inspections.length">
-        <ion-list-header>
-          <ion-label>Recent Inspections</ion-label>
-        </ion-list-header>
-
-        <ion-item
-          button
-          v-for="inspection in inspections"
-          :key="inspection.id"
-          @click="selectInspection(inspection)"
-        >
-          <ion-label>
-            <h2>{{ inspection.title }}</h2>
-            <p>
-              {{ inspection.location }} •
-              {{ formatDate(inspection.inspectionDate) }}
-            </p>
-          </ion-label>
-
-          <ion-badge color="success">
-            {{ inspection.score }}%
-          </ion-badge>
-        </ion-item>
-      </ion-list>
-
-      <!-- INSPECTIE DETAILS (ONDER DE LIJST) -->
-      <ion-card v-if="selectedInspection" class="inspection-details">
-        <ion-card-header>
-          <ion-card-title>
-            {{ selectedInspection.title }}
-          </ion-card-title>
-        </ion-card-header>
-
-        <ion-card-content>
-          <p><strong>Location:</strong> {{ selectedInspection.location }}</p>
-          <p><strong>Inspector:</strong> {{ selectedInspection.inspector }}</p>
-          <p><strong>Date:</strong> {{ formatDate(selectedInspection.inspectionDate) }}</p>
-          <p><strong>Status:</strong> {{ selectedInspection.status }}</p>
-          <p><strong>Score:</strong> {{ selectedInspection.score }}%</p>
-        </ion-card-content>
-      </ion-card>
     </ion-content>
 
-    <!-- FOOTER -->
-    <ion-footer>
-      <ion-toolbar color="medium">
-        <ion-title size="small">© 2025 RealEstateCare</ion-title>
-      </ion-toolbar>
-    </ion-footer>
   </ion-page>
 </template>
 
 <script>
 import SvgIcon from '@jamescoyle/vue-icon'
+import { homeOutline } from 'ionicons/icons'
+
 import {
   mdiFileChart,
   mdiFileChartCheckOutline,
-  mdiHomeLightbulb,
-  mdiCogs
+  mdiCogs,
+  mdiHomeLightbulb
 } from '@mdi/js'
 
 import {
@@ -124,22 +105,18 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
-  IonFooter,
+  IonButtons,
+  IonButton,
+  IonIcon,
   IonCard,
   IonCardHeader,
   IonCardTitle,
-  IonCardContent,
-  IonList,
-  IonListHeader,
-  IonItem,
-  IonLabel,
-  IonBadge
+  IonCardContent
 } from '@ionic/vue'
-
-import { getInspections } from '@/services/inspectionService'
 
 export default {
   name: 'DashboardPage',
+
   components: {
     SvgIcon,
     IonPage,
@@ -147,44 +124,48 @@ export default {
     IonToolbar,
     IonTitle,
     IonContent,
-    IonFooter,
+    IonButtons,
+    IonButton,
+    IonIcon,
     IonCard,
     IonCardHeader,
     IonCardTitle,
-    IonCardContent,
-    IonList,
-    IonListHeader,
-    IonItem,
-    IonLabel,
-    IonBadge
+    IonCardContent
   },
+
   data() {
     return {
-      icon1: mdiFileChart,
-      icon2: mdiFileChartCheckOutline,
-      icon3: mdiCogs,
-      icon4: mdiHomeLightbulb,
-      inspections: [],
-      selectedInspection: null
+      homeOutline,
+      iconOpen: mdiFileChart,
+      iconCompleted: mdiFileChartCheckOutline,
+      iconSettings: mdiCogs,
+      iconKnowledge: mdiHomeLightbulb
     }
   },
-  async mounted() {
-    const result = await getInspections()
 
-    // sorteer inspecties op datum (nieuwste eerst)
-    this.inspections = result.sort(
-      (a, b) => new Date(b.inspectionDate) - new Date(a.inspectionDate)
-    )
+  computed: {
+    openCount() {
+      return this.$store.getters['inspections/openCount']
+    },
+    completedCount() {
+      return this.$store.getters['inspections/completedCount']
+    }
   },
+
+  mounted() {
+    this.$store.dispatch('inspections/loadInspections')
+  },
+
   methods: {
-    openFunctie(naam) {
-      alert(`Functie geopend: ${naam}`)
+    goTo(route) {
+      this.$router.push(route)
     },
-    formatDate(date) {
-      return new Date(date).toLocaleDateString('nl-NL')
+    goHome() {
+      this.$router.push('/dashboard')
     },
-    selectInspection(inspection) {
-      this.selectedInspection = inspection
+    logout() {
+      this.$store.dispatch('auth/logout')
+      this.$router.push('/login')
     }
   }
 }
@@ -195,24 +176,16 @@ export default {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  margin-bottom: 2rem;
 }
 
 .card-icon {
+  color: var(--ion-color-secondary);
+}
+
+.count {
+  margin-top: 0.5rem;
+  font-size: 1.6rem;
+  font-weight: bold;
   color: var(--ion-color-primary);
-}
-
-.inspection-details {
-  margin-top: 1rem;
-}
-
-ion-page {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-ion-content {
-  flex: 1 1 auto;
 }
 </style>
