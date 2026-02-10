@@ -10,9 +10,9 @@
           <ion-item class="form-item">
             <ion-label  position="floating">Email</ion-label>
             <ion-input
-              type="email"
-              :modelValue="email"
-              @ionInput="email = $event.detail.value">
+              :value="email"
+              @ionInput="email = $event.target.value"
+              type="email">
             </ion-input>
           </ion-item>
 
@@ -20,8 +20,8 @@
             <ion-label  position="floating">Password</ion-label>
             <ion-input
               type="password"
-              :modelValue="password"
-              @ionInput="password = $event.detail.value">
+              :value="password"
+              @ionInput="password = $event.target.value">
             </ion-input>
           </ion-item>
 
