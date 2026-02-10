@@ -8,7 +8,7 @@
         <!-- Login Scherm -->
         <div v-if="!twoFactorRequired">
           <ion-item class="form-item">
-            <ion-label  position="floating">Email</ion-label>
+            <ion-label>Email</ion-label>
             <ion-input
               :modelValue="email"
               @ionInput="email = $event.detail.value"
