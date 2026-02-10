@@ -8,7 +8,7 @@
         <!-- Login Scherm -->
         <div v-if="!twoFactorRequired">
           <ion-item lines="none" class="form-group">
-            <ion-label>Email</ion-label>
+            <ion-label class="field-label1">Email</ion-label>
           </ion-item>
 
           <ion-item class="form-input">
@@ -20,7 +20,7 @@
           </ion-item>
 
           <ion-item lines="none" class="form-group">
-            <ion-label>Wachtwoord</ion-label>
+            <ion-label class="field-label">Wachtwoord</ion-label>
           </ion-item>
 
           <ion-item class="form-input">
@@ -39,7 +39,7 @@
           <p>Voer de code in die naar je email is gestuurd (simulatie)</p>
 
           <ion-item lines="none" class="form-group">
-            <ion-label>2FA Code</ion-label>
+            <ion-label class="field-label1">2FA Code</ion-label>
           </ion-item>
 
           <ion-item class="form-input">
@@ -178,6 +178,12 @@ ion-button {
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--ion-color-secondary);
+}
+
+.field-label1 {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ion-color-primary);
 }
 
 .form-input {
