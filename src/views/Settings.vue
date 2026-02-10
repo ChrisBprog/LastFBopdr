@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <!-- HEADER -->
+    <!-- Header -->
     <ion-header>
       <ion-toolbar color="primary">
         <ion-buttons slot="start">
@@ -19,10 +19,9 @@
       </ion-toolbar>
     </ion-header>
 
-    <!-- CONTENT -->
     <ion-content class="ion-padding">
 
-      <!-- ACCOUNT INFO -->
+      <!-- Account informatie -->
       <ion-card class="settings-card">
         <ion-card-header>
           <ion-card-title>Accountgegevens</ion-card-title>
@@ -36,7 +35,7 @@
         </ion-card-content>
       </ion-card>
 
-      <!-- WIJZIG GEGEVENS -->
+      <!-- Wijzigen gegevens -->
       <ion-card class="settings-card">
         <ion-card-header>
           <ion-card-title>Gegevens aanpassen</ion-card-title>

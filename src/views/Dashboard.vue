@@ -1,11 +1,11 @@
 <template>
   <ion-page>
 
-    <!-- HEADER -->
+    <!-- Header -->
     <ion-header>
       <ion-toolbar color="primary">
 
-        <!-- HOME -->
+        <!-- Dashboard -->
         <ion-buttons slot="start">
           <ion-button color="light" @click="goHome">
             <ion-icon :icon="homeOutline" />
@@ -14,7 +14,7 @@
 
         <ion-title>Dashboard</ion-title>
 
-        <!-- LOGOUT -->
+        <!-- Logout -->
         <ion-buttons slot="end">
           <ion-button color="light" @click="logout">
             Logout
@@ -24,11 +24,11 @@
       </ion-toolbar>
     </ion-header>
 
-    <!-- CONTENT -->
+    <!-- Dashboard tegels -->
     <ion-content class="ion-padding">
       <div class="grid">
 
-        <!-- OPEN INSPECTIONS -->
+        <!-- Open inspections -->
         <ion-card button @click="goTo('/open-inspections')">
           <ion-card-header>
             <ion-card-title>
@@ -42,7 +42,7 @@
           </ion-card-content>
         </ion-card>
 
-        <!-- COMPLETED INSPECTIONS -->
+        <!-- Completed inspections -->
         <ion-card button @click="goTo('/completed-inspections')">
           <ion-card-header>
             <ion-card-title>
@@ -56,7 +56,7 @@
           </ion-card-content>
         </ion-card>
 
-        <!-- SETTINGS -->
+        <!-- Instellingen -->
         <ion-card button @click="goTo('/settings')">
           <ion-card-header>
             <ion-card-title>
@@ -69,7 +69,7 @@
           </ion-card-content>
         </ion-card>
 
-        <!-- KNOWLEDGE BASE -->
+        <!-- Knowledge base -->
         <ion-card button @click="goTo('/knowledge-base')">
           <ion-card-header>
             <ion-card-title>

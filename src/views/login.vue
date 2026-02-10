@@ -5,10 +5,10 @@
       <div class="login-container">
         <h1>RealEstateCare</h1>
 
-        <!-- LOGIN FORM -->
+        <!-- Login Scherm -->
         <div v-if="!twoFactorRequired">
-          <ion-item>
-            <ion-label class="form-item" position="floating">Email</ion-label>
+          <ion-item class="form-item">
+            <ion-label  position="floating">Email</ion-label>
             <ion-input
               type="email"
               :modelValue="email"
@@ -16,8 +16,8 @@
             </ion-input>
           </ion-item>
 
-          <ion-item>
-            <ion-label class="form-item" position="floating">Password</ion-label>
+          <ion-item class="form-item">
+            <ion-label  position="floating">Password</ion-label>
             <ion-input
               type="password"
               :modelValue="password"
@@ -31,13 +31,13 @@
           <p class="hint">Zie README.md</p>
         </div>
 
-        <!-- 2FA FORM -->
+        <!-- 2FA -->
         <div v-else>
           <h2>Two-Factor Authentication</h2>
           <p>Voer de code in die naar je email is gestuurd (simulatie)</p>
 
-          <ion-item>
-            <ion-label class="form-item" position="floating">Code</ion-label>
+          <ion-item class="form-item">
+            <ion-label  position="floating">Code</ion-label>
             <ion-input
               type="text"
               :modelValue="code"

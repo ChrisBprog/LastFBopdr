@@ -10,7 +10,7 @@ export default {
     isAuthenticated: false,
     twoFactorRequired: false,
 
-    twoFactorCode: '123456' // simulatiecode
+    twoFactorCode: '123456' // simulatiecode voor opdracht (2FA)
   }),
 
   mutations: {
