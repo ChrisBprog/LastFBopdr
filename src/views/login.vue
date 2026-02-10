@@ -28,7 +28,7 @@
           <ion-button expand="block" color="primary" @click="handleLogin">
             Login
           </ion-button>
-          <p class="hint">Gebruik demo:  / password</p>
+          <p class="hint">Zie README.md</p>
         </div>
 
         <!-- 2FA FORM -->
@@ -165,6 +165,6 @@ ion-button {
   margin-top: 0.75rem;
 }
 .form-item {
-  margin-bottom: 15px;
+  margin-bottom: 24px;
 }
 </style>

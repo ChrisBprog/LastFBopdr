@@ -1,4 +1,0 @@
-to do: 
-Online zetten middls netlify of firebase
-alle aspecten zijn aangehaald?
-

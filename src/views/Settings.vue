@@ -143,7 +143,7 @@ export default {
         password: this.password
       })
 
-      this.password = '' // input leegmaken voor veiligheid
+      this.password = '' 
 
       alert('Gegevens succesvol opgeslagen')
     },
@@ -178,4 +178,8 @@ export default {
 .info-line span {
   color: var(--ion-color-dark);
 }
+.form-item {
+  margin-bottom: 24px;
+}
+
 </style>
