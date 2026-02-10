@@ -8,7 +8,7 @@
         <!-- Login Scherm -->
         <div v-if="!twoFactorRequired">
           <ion-item class="form-item">
-            <ion-label>Email</ion-label>
+            <ion-label position="floating">Email</ion-label>
             <ion-input
               :modelValue="email"
               @ionInput="email = $event.detail.value"
@@ -149,6 +149,8 @@ ion-item {
   --background: rgba(71, 94, 108, 0.06);
   --border-radius: 10px;
   margin-bottom: 1.4rem;
+  --padding-top: 18px;
+  --padding-bottom: 6px;
 }
 
 ion-label {
@@ -163,8 +165,5 @@ ion-button {
   font-size: 0.85rem;
   color: var(--ion-color-secondary);
   margin-top: 0.75rem;
-}
-.form-item {
-  margin-bottom: 24px;
 }
 </style>
