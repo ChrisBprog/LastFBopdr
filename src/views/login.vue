@@ -51,7 +51,7 @@
           <ion-button expand="block" color="medium" @click="cancel2FA">
             Cancel
           </ion-button>
-          <p class="hint">Simulatiecode: 123456</p>
+          <p class="hint">Simulatiecode: zie README.md</p>
         </div>
       </div>
 
