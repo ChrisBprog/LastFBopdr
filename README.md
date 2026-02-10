@@ -39,7 +39,6 @@ Binnen dit prototype is security op conceptueel en functioneel niveau toegepast.
 
 Toegang tot beveiligde pagina’s wordt afgedwongen via Vue Router route guards (`meta.requiresAuth`). Niet-geauthenticeerde gebruikers worden automatisch doorgestuurd naar de loginpagina. Gevoelige acties zoals uitloggen en het aanpassen van accountgegevens zijn centraal afgehandeld via Vuex.
 
-De authenticatie en data-opslag zijn niet persistent en worden niet server-side gevalideerd. Dit is een bewuste keuze vanwege de scope van het prototype. Voor een productieomgeving zouden server-side authenticatie, encryptie, token-based authentication (JWT) en HTTPS noodzakelijk zijn.
 
 ---
 
@@ -90,4 +89,4 @@ De code is leesbaar, gestructureerd en onderhoudbaar opgezet, passend bij een pr
 ---
 
 ### Conclusie
-De demo-applicatie laat een bewuste en onderbouwde toepassing zien van security, usability, accessibility en framework-best practices. Hoewel niet alle aspecten volledig zijn geïmplementeerd, zijn de belangrijkste principes aantoonbaar aanwezig en correct toegepast binnen de scope van dit project.
+Mijn demo-applicatie laat een bewuste en onderbouwde toepassing zien van security, usability, accessibility en framework-best practices. Hoewel niet alle aspecten volledig zijn geïmplementeerd, zijn de belangrijkste principes aantoonbaar aanwezig en correct toegepast binnen de scope van dit project.

@@ -20,7 +20,7 @@
           </ion-item>
 
           <ion-item lines="none" class="form-group">
-            <ion-label class="field-label">Wachtwoord</ion-label>
+            <ion-label class="field-label1">Wachtwoord</ion-label>
           </ion-item>
 
           <ion-item class="form-input">
