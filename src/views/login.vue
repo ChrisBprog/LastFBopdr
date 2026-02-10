@@ -7,21 +7,19 @@
 
         <!-- Login Scherm -->
         <div v-if="!twoFactorRequired">
-          <ion-item class="form-item">
+          <ion-item>
             <ion-label position="floating">Email</ion-label>
             <ion-input
-              :modelValue="email"
-              @ionInput="email = $event.detail.value"
+              v-model="email"
               type="email">
             </ion-input>
           </ion-item>
 
-          <ion-item class="form-item">
-            <ion-label  position="floating">Password</ion-label>
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
             <ion-input
-              type="password"
-              :modelValue="password"
-              @ionInput="password = $event.detail.value">
+              v-model="password"
+              type="password">
             </ion-input>
           </ion-item>
 
@@ -40,8 +38,7 @@
             <ion-label  position="floating">Code</ion-label>
             <ion-input
               type="text"
-              :modelValue="code"
-              @ionInput="code = $event.detail.value">
+              v-model="code">
             </ion-input>
           </ion-item>
 
@@ -149,8 +146,6 @@ ion-item {
   --background: rgba(71, 94, 108, 0.06);
   --border-radius: 10px;
   margin-bottom: 1.4rem;
-  --padding-top: 18px;
-  --padding-bottom: 6px;
 }
 
 ion-label {
