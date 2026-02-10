@@ -7,25 +7,29 @@
 
         <!-- Login Scherm -->
         <div v-if="!twoFactorRequired">
-          <ion-item>
-            <ion-label position="floating">Email</ion-label>
+          <ion-item lines="none" class="form-group">
+            <ion-label class="field-label">Email</ion-label>
+          </ion-item>
+
+          <ion-item class="form-input">
             <ion-input
               v-model="email"
-              type="email">
+              type="email"
+              placeholder="Voer je email in">
             </ion-input>
           </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Password</ion-label>
+          <ion-item lines="none" class="form-group">
+            <ion-label class="field-label">Wachtwoord</ion-label>
+          </ion-item>
+
+          <ion-item class="form-input">
             <ion-input
               v-model="password"
-              type="password">
+              type="password"
+              placeholder="Voer je wachtwoord in">
             </ion-input>
           </ion-item>
-
-          <ion-button expand="block" color="primary" @click="handleLogin">
-            Login
-          </ion-button>
           <p class="hint">Zie README.md</p>
         </div>
 
@@ -34,13 +38,18 @@
           <h2>Two-Factor Authentication</h2>
           <p>Voer de code in die naar je email is gestuurd (simulatie)</p>
 
-          <ion-item class="form-item">
-            <ion-label  position="floating">Code</ion-label>
+          <ion-item lines="none" class="form-group">
+            <ion-label class="field-label">2FA Code</ion-label>
+          </ion-item>
+
+          <ion-item class="form-input">
             <ion-input
+              v-model="code"
               type="text"
-              v-model="code">
+              placeholder="6-cijferige code">
             </ion-input>
           </ion-item>
+
 
           <ion-button expand="block" color="success" @click="verifyCode">
             Verify
@@ -161,4 +170,20 @@ ion-button {
   color: var(--ion-color-secondary);
   margin-top: 0.75rem;
 }
+.form-group {
+  margin-bottom: 4px;
+}
+
+.field-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ion-color-secondary);
+}
+
+.form-input {
+  --background: rgba(71, 94, 108, 0.06);
+  --border-radius: 10px;
+  margin-bottom: 1.2rem;
+}
+
 </style>
