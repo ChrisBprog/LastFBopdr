@@ -30,6 +30,7 @@
               placeholder="Voer je wachtwoord in">
             </ion-input>
           </ion-item>
+          <ion-button expand="block" color="primary" @click="handleLogin"> Login </ion-button>
           <p class="hint">Zie README.md</p>
         </div>
 
