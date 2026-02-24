@@ -2,57 +2,90 @@
   "inspections": [
     {
       "id": 1,
-      "title": "Fire Safety Inspection",
-      "location": "Warehouse A",
-      "inspector": "Tino Martin",
+      "inspecteur": "Jan de Vries",
+      "adres": "Dorpsstraat 12, Utrecht",
+      "datum": "2026-02-15",
       "status": "open",
-      "inspectionDate": "2025-01-05",
-      "score": 92
+      "opmerkingAlgemeen": "Eerste inspectie na huuropzegging"
     },
     {
       "id": 2,
-      "title": "Electrical Inspection",
-      "location": "Office Building",
-      "inspector": "Jan Smit",
-      "status": "open",
-      "inspectionDate": "2025-01-03",
-      "score": 88
+      "inspecteur": "Sanne Jansen",
+      "adres": "Kerklaan 45, Amersfoort",
+      "datum": "2026-02-18",
+      "status": "concept",
+      "opmerkingAlgemeen": "Tussentijdse controle"
     },
     {
       "id": 3,
-      "title": "Health & Safety Check",
-      "location": "Factory Floor",
-      "inspector": "Frans Bauer",
-      "status": "open",
-      "inspectionDate": "2025-01-02",
-      "score": 95
+      "inspecteur": "Mark Willems",
+      "adres": "Parkweg 3, Hilversum",
+      "datum": "2026-02-20",
+      "status": "afgerond",
+      "opmerkingAlgemeen": "Eindinspectie woning"
+    }
+  ],
+
+  "damages": [
+    {
+      "id": 1,
+      "inspectionId": 1,
+      "locatie": "Keuken",
+      "nieuw": true,
+      "soort": "slijtage",
+      "datum": "2026-02-15",
+      "acuut": false,
+      "omschrijving": "Beschadiging aan kastdeur linksboven"
     },
     {
-      "id": 4,
-      "title": "Environmental Inspection",
-      "location": "Site B",
-      "inspector": "Mart Hoogkramer",
-      "status": "open",
-      "inspectionDate": "2024-12-29",
-      "score": 90
+      "id": 2,
+      "inspectionId": 2,
+      "locatie": "Badkamer",
+      "nieuw": false,
+      "soort": "calamiteit",
+      "datum": "2026-02-10",
+      "acuut": true,
+      "omschrijving": "Waterschade plafond door lekkage"
     },
     {
-      "id": 5,
-      "title": "Machine Safety Inspection",
-      "location": "Production Line 3",
-      "inspector": "André Hazes",
-      "status": "open",
-      "inspectionDate": "2024-12-20",
-      "score": 85
+      "id": 3,
+      "inspectionId": 3,
+      "locatie": "Woonkamer",
+      "nieuw": true,
+      "soort": "moedwillig",
+      "datum": "2026-02-20",
+      "acuut": true,
+      "omschrijving": "Gat in gipswand naast deurpost"
+    }
+  ],
+
+  "maintenance": [
+    {
+      "id": 1,
+      "inspectionId": 1,
+      "locatie": "Buitenzijde woning",
+      "soort": "schilderwerk",
+      "acuut": false,
+      "kostenIndicatie": "500-1500",
+      "omschrijving": "Verf bladdert af op kozijnen"
     },
     {
-      "id": 6,
-      "title": "Building Safety Inspection",
-      "location": "Head Office",
-      "inspector": "Guus Meeuwis",
-      "status": "completed",
-      "inspectionDate": "2024-12-10",
-      "score": 100
+      "id": 2,
+      "inspectionId": 2,
+      "locatie": "Zolder",
+      "soort": "houtrot",
+      "acuut": true,
+      "kostenIndicatie": "1500+",
+      "omschrijving": "Houtrot in dakconstructie"
+    },
+    {
+      "id": 3,
+      "inspectionId": 3,
+      "locatie": "Meterkast",
+      "soort": "elektra",
+      "acuut": false,
+      "kostenIndicatie": "0-500",
+      "omschrijving": "Verouderde groepenkast"
     }
   ]
 }
