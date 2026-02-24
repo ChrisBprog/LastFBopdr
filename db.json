@@ -1,31 +1,4 @@
 {
-  "inspections": [
-    {
-      "id": 1,
-      "inspecteur": "Jan de Vries",
-      "adres": "Dorpsstraat 12, Utrecht",
-      "datum": "2026-02-15",
-      "status": "open",
-      "opmerkingAlgemeen": "Eerste inspectie na huuropzegging"
-    },
-    {
-      "id": 2,
-      "inspecteur": "Sanne Jansen",
-      "adres": "Kerklaan 45, Amersfoort",
-      "datum": "2026-02-18",
-      "status": "concept",
-      "opmerkingAlgemeen": "Tussentijdse controle"
-    },
-    {
-      "id": 3,
-      "inspecteur": "Mark Willems",
-      "adres": "Parkweg 3, Hilversum",
-      "datum": "2026-02-20",
-      "status": "afgerond",
-      "opmerkingAlgemeen": "Eindinspectie woning"
-    }
-  ],
-
   "damages": [
     {
       "id": 1,
