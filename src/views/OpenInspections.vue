@@ -168,7 +168,7 @@ import {
 
 import { ref, onMounted } from 'vue'
 
-const API_BASE = "https://my-json-server.typicode.com/ChrisBprog/LastFBopdr/inspections'"
+const API_BASE = "https://my-json-server.typicode.com/ChrisBprog/LastFBopdr/inspections"
 
 function emptySchade() {
   return {
