@@ -1,4 +1,31 @@
 {
+  "inspections": [
+    {
+      "id": 1,
+      "inspecteur": "Jan Jansen",
+      "adres": "Stationsstraat 1, Utrecht",
+      "datum": "2026-02-15",
+      "status": "open",
+      "opmerkingAlgemeen": "Voorinspectie bij nieuwe huurder"
+    },
+    {
+      "id": 2,
+      "inspecteur": "Lisa de Vries",
+      "adres": "Dorpsplein 12, Amersfoort",
+      "datum": "2026-02-10",
+      "status": "open",
+      "opmerkingAlgemeen": "Controle na melding lekkage"
+    },
+    {
+      "id": 3,
+      "inspecteur": "Mark Peters",
+      "adres": "Kerkstraat 45, Rotterdam",
+      "datum": "2026-02-20",
+      "status": "completed",
+      "opmerkingAlgemeen": "Eindinspectie bij verhuizing"
+    }
+  ],
+
   "damages": [
     {
       "id": 1,
