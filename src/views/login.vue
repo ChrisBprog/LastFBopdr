@@ -22,7 +22,7 @@
           <ion-item lines="none" class="form-group">
             <ion-label class="field-label1">Wachtwoord</ion-label>
           </ion-item>
-
+          <form @submit.prevent="handleLogin">
           <ion-item class="form-input">
             <ion-input
               v-model="password"
@@ -31,12 +31,14 @@
             </ion-input>
           </ion-item>
           <ion-button expand="block" color="primary" @click="handleLogin"> Login </ion-button>
+        </form>
         </div>
 
         <!-- 2FA -->
         <div v-else>
           <h2>Two-Factor Authentication</h2>
           <p>Voer de code in die naar je email is gestuurd (simulatie)</p>
+                    <form @submit.prevent="verifyCode">
 
           <ion-item lines="none" class="form-group">
             <ion-label class="field-label1">2FA Code</ion-label>
@@ -50,10 +52,10 @@
             </ion-input>
           </ion-item>
 
-
           <ion-button expand="block" color="success" @click="verifyCode">
             Verify
           </ion-button>
+          </form>
           <ion-button expand="block" color="medium" @click="cancel2FA">
             Cancel
           </ion-button>
