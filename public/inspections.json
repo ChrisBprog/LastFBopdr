@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "adres": "Hoofdstraat 10",
+    "inspecteur": "Jan Jansen",
+    "datum": "2026-02-20",
+    "status": "open",
+    "schade": {},
+    "onderhoud": {},
+    "installatie": {},
+    "modificatie": {}
+  },
+  {
+    "id": 2,
+    "adres": "Marktplein 5",
+    "inspecteur": "Lisa de Vries",
+    "datum": "2026-02-18",
+    "status": "completed",
+    "schade": {},
+    "onderhoud": {},
+    "installatie": {},
+    "modificatie": {}
+  }
+]

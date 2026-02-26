@@ -2,51 +2,77 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-button @click="goHome" color="light">
+            <ion-icon :icon="homeOutline" />
+          </ion-button>
+        </ion-buttons>
+
         <ion-title>Open Inspecties</ion-title>
+
+        <ion-buttons slot="end">
+          <ion-button @click="logout" color="light">Logout</ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding">
 
-      <h2 class="page-title">Nieuwe Rapportage</h2>
+      <h2>{{ editMode ? 'Inspectie bewerken' : 'Nieuwe Inspectie' }}</h2>
 
-      <ion-accordion-group expand="inset">
+      <!-- ======= BASISGEGEVENS ======= -->
+      <ion-item>
+        <ion-label position="stacked">Adres</ion-label>
+        <ion-input v-model="inspection.adres" placeholder="Bijv. Straat 1, 1234 AB" />
+      </ion-item>
 
-        <!-- ================= 1. SCHADE ================= -->
+      <ion-item>
+        <ion-label position="stacked">Inspecteur</ion-label>
+        <ion-input v-model="inspection.inspecteur" placeholder="Naam inspecteur" />
+      </ion-item>
 
+      <ion-item>
+        <ion-label position="stacked">Datum</ion-label>
+        <ion-datetime presentation="date" v-model="inspection.datum" />
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Status</ion-label>
+        <ion-select v-model="inspection.status">
+          <ion-select-option value="open">Open</ion-select-option>
+          <ion-select-option value="completed">Completed</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- ================= 4 MENU'S ================= -->
+      <ion-accordion-group>
+
+        <!-- 1 SCHADE -->
         <ion-accordion value="schade">
           <ion-item slot="header">
             <ion-label>1. Schade opnemen</ion-label>
           </ion-item>
-
           <div slot="content">
-
             <ion-item>
               <ion-label position="stacked">Locatie</ion-label>
-              <ion-input v-model="schade.locatie" />
+              <ion-input v-model="inspection.schade.locatie" />
             </ion-item>
 
             <ion-item>
-              <ion-label position="stacked">Nieuwe schade</ion-label>
-              <ion-radio-group v-model="schade.nieuw">
-                <ion-item>
-                  <ion-label>Ja</ion-label>
-                  <ion-radio :value="true" />
-                </ion-item>
-                <ion-item>
-                  <ion-label>Nee</ion-label>
-                  <ion-radio :value="false" />
-                </ion-item>
+              <ion-label>Nieuwe schade</ion-label>
+              <ion-radio-group v-model="inspection.schade.nieuw">
+                <ion-item><ion-label>Ja</ion-label><ion-radio :value="true" /></ion-item>
+                <ion-item><ion-label>Nee</ion-label><ion-radio :value="false" /></ion-item>
               </ion-radio-group>
             </ion-item>
 
             <ion-item>
               <ion-label position="stacked">Soort schade</ion-label>
-              <ion-select v-model="schade.soort">
+              <ion-select v-model="inspection.schade.soort">
                 <ion-select-option value="moedwillig">Moedwillig</ion-select-option>
                 <ion-select-option value="slijtage">Slijtage</ion-select-option>
                 <ion-select-option value="geweld">Geweld</ion-select-option>
-                <ion-select-option value="normaal">Normaal gebruik</ion-select-option>
+                <ion-select-option value="normaal gebruik">Normaal gebruik</ion-select-option>
                 <ion-select-option value="calamiteit">Calamiteit</ion-select-option>
                 <ion-select-option value="anders">Anders</ion-select-option>
               </ion-select>
@@ -54,48 +80,38 @@
 
             <ion-item>
               <ion-label position="stacked">Datum</ion-label>
-              <ion-datetime presentation="date" v-model="schade.datum" />
+              <ion-datetime presentation="date" v-model="inspection.schade.datum" />
             </ion-item>
 
             <ion-item>
-              <ion-label position="stacked">Acute actie vereist</ion-label>
-              <ion-radio-group v-model="schade.acuut">
-                <ion-item>
-                  <ion-label>Ja</ion-label>
-                  <ion-radio :value="true" />
-                </ion-item>
-                <ion-item>
-                  <ion-label>Nee</ion-label>
-                  <ion-radio :value="false" />
-                </ion-item>
+              <ion-label>Acute actie vereist</ion-label>
+              <ion-radio-group v-model="inspection.schade.acuut">
+                <ion-item><ion-label>Ja</ion-label><ion-radio :value="true" /></ion-item>
+                <ion-item><ion-label>Nee</ion-label><ion-radio :value="false" /></ion-item>
               </ion-radio-group>
             </ion-item>
 
             <ion-item>
               <ion-label position="stacked">Omschrijving</ion-label>
-              <ion-textarea auto-grow v-model="schade.omschrijving" />
+              <ion-textarea v-model="inspection.schade.omschrijving" />
             </ion-item>
-
           </div>
         </ion-accordion>
 
-        <!-- ================= 2. ONDERHOUD ================= -->
-
+        <!-- 2 ONDERHOUD -->
         <ion-accordion value="onderhoud">
           <ion-item slot="header">
             <ion-label>2. Achterstallig onderhoud</ion-label>
           </ion-item>
-
           <div slot="content">
-
             <ion-item>
               <ion-label position="stacked">Locatie</ion-label>
-              <ion-input v-model="onderhoud.locatie" />
+              <ion-input v-model="inspection.onderhoud.locatie" />
             </ion-item>
 
             <ion-item>
               <ion-label position="stacked">Soort onderhoud</ion-label>
-              <ion-select v-model="onderhoud.soort">
+              <ion-select v-model="inspection.onderhoud.soort">
                 <ion-select-option value="schilderwerk">Schilderwerk</ion-select-option>
                 <ion-select-option value="houtrot">Houtrot</ion-select-option>
                 <ion-select-option value="elektra">Elektra</ion-select-option>
@@ -105,50 +121,149 @@
             </ion-item>
 
             <ion-item>
-              <ion-label position="stacked">Acute actie vereist</ion-label>
-              <ion-radio-group v-model="onderhoud.acuut">
-                <ion-item>
-                  <ion-label>Ja</ion-label>
-                  <ion-radio :value="true" />
-                </ion-item>
-                <ion-item>
-                  <ion-label>Nee</ion-label>
-                  <ion-radio :value="false" />
-                </ion-item>
+              <ion-label>Acute actie vereist</ion-label>
+              <ion-radio-group v-model="inspection.onderhoud.acuut">
+                <ion-item><ion-label>Ja</ion-label><ion-radio :value="true" /></ion-item>
+                <ion-item><ion-label>Nee</ion-label><ion-radio :value="false" /></ion-item>
               </ion-radio-group>
             </ion-item>
 
             <ion-item>
               <ion-label position="stacked">Kostenindicatie</ion-label>
-              <ion-select v-model="onderhoud.kosten">
+              <ion-select v-model="inspection.onderhoud.kosten">
                 <ion-select-option value="0-500">0-500</ion-select-option>
                 <ion-select-option value="500-1500">500-1500</ion-select-option>
                 <ion-select-option value="1500+">1500+</ion-select-option>
               </ion-select>
             </ion-item>
 
+            <ion-item>
+              <ion-label position="stacked">Opmerkingen</ion-label>
+              <ion-textarea v-model="inspection.onderhoud.opmerkingen" />
+            </ion-item>
+          </div>
+        </ion-accordion>
+
+        <!-- 3 INSTALLATIES -->
+        <ion-accordion value="installatie">
+          <ion-item slot="header">
+            <ion-label>3. Technische installaties</ion-label>
+          </ion-item>
+          <div slot="content">
+            <ion-item>
+              <ion-label position="stacked">Locatie</ion-label>
+              <ion-input v-model="inspection.installatie.locatie" />
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Soort installatie</ion-label>
+              <ion-select v-model="inspection.installatie.soort">
+                <ion-select-option value="koeling">Koeling</ion-select-option>
+                <ion-select-option value="verwarming">Verwarming</ion-select-option>
+                <ion-select-option value="luchtverversing">Luchtverversing</ion-select-option>
+                <ion-select-option value="elektra">Elektra</ion-select-option>
+                <ion-select-option value="beveiliging">Beveiliging</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Gemelde storingen</ion-label>
+              <ion-textarea v-model="inspection.installatie.storingen" />
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Testprocedure (PDF link)</ion-label>
+              <ion-input v-model="inspection.installatie.testPdf" />
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Goedgekeurd</ion-label>
+              <ion-radio-group v-model="inspection.installatie.goedgekeurd">
+                <ion-item><ion-label>Ja</ion-label><ion-radio :value="true" /></ion-item>
+                <ion-item><ion-label>Nee</ion-label><ion-radio :value="false" /></ion-item>
+              </ion-radio-group>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Opmerkingen</ion-label>
+              <ion-textarea v-model="inspection.installatie.opmerkingen" />
+            </ion-item>
+          </div>
+        </ion-accordion>
+
+        <!-- 4 MODIFICATIES -->
+        <ion-accordion value="modificatie">
+          <ion-item slot="header">
+            <ion-label>4. Modificaties inventariseren</ion-label>
+          </ion-item>
+          <div slot="content">
+            <ion-item>
+              <ion-label position="stacked">Bestaande situatie (PDF link)</ion-label>
+              <ion-input v-model="inspection.modificatie.bestaandePdf" />
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Locatie aangetroffen modificatie</ion-label>
+              <ion-input v-model="inspection.modificatie.locatie" />
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Uitgevoerd door</ion-label>
+              <ion-select v-model="inspection.modificatie.uitgevoerdDoor">
+                <ion-select-option value="huurder">Huurder</ion-select-option>
+                <ion-select-option value="aannemer">Aannemer</ion-select-option>
+                <ion-select-option value="onbekend">Onbekend</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Beschrijving modificatie</ion-label>
+              <ion-textarea v-model="inspection.modificatie.beschrijving" />
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Te ondernemen actie</ion-label>
+              <ion-select v-model="inspection.modificatie.actie">
+                <ion-select-option value="accepteren">Accepteren</ion-select-option>
+                <ion-select-option value="laten keuren">Laten keuren</ion-select-option>
+                <ion-select-option value="laten verwijderen">Laten verwijderen</ion-select-option>
+                <ion-select-option value="laten aanpassen en keuren">Laten aanpassen en keuren</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Opmerkingen</ion-label>
+              <ion-textarea v-model="inspection.modificatie.opmerkingen" />
+            </ion-item>
           </div>
         </ion-accordion>
 
       </ion-accordion-group>
 
-      <ion-button expand="block" size="large" class="save-button" @click="saveInspection">
-        Rapportage opslaan
+      <ion-button expand="block" @click="saveInspection">
+        {{ editMode ? 'Wijzigingen opslaan' : 'Opslaan' }}
       </ion-button>
 
-      <!-- ================= OVERZICHT ================= -->
+      <ion-button v-if="editMode" expand="block" fill="outline" @click="resetForm">
+        Annuleren
+      </ion-button>
 
-      <h2 class="page-title">Opgeslagen Inspecties</h2>
+      <h2 class="ion-margin-top">Open inspecties</h2>
 
-      <ion-card v-for="item in inspections" :key="item.id">
+      <ion-card v-for="item in openInspections" :key="item.id">
         <ion-card-header>
-          <ion-card-title>
-            Inspectie #{{ item.id }}
-          </ion-card-title>
+          <ion-card-title>{{ item.adres || '(Geen adres ingevuld)' }}</ion-card-title>
         </ion-card-header>
+
         <ion-card-content>
-          Datum: {{ formatDate(item.datum) }} <br>
-          Status: {{ item.status }}
+          Inspecteur: {{ item.inspecteur || '-' }} <br />
+          Datum: {{ prettyDate(item.datum) }}
+
+          <div style="display:flex; gap:8px; margin-top:12px; flex-wrap: wrap;">
+            <ion-button size="small" @click="editInspection(item)">Bewerken</ion-button>
+            <ion-button size="small" color="success" @click="markCompleted(item.id)">Inspectie voltooid</ion-button>
+            <ion-button size="small" color="danger" @click="deleteInspection(item.id)">Verwijderen</ion-button>
+          </div>
         </ion-card-content>
       </ion-card>
 
@@ -159,118 +274,159 @@
 <script setup>
 import {
   IonPage, IonHeader, IonToolbar, IonTitle,
-  IonContent, IonAccordionGroup, IonAccordion,
-  IonItem, IonLabel, IonInput, IonSelect,
-  IonSelectOption, IonRadioGroup, IonRadio,
-  IonDatetime, IonTextarea, IonButton,
-  IonCard, IonCardHeader, IonCardTitle, IonCardContent
+  IonContent, IonItem, IonLabel, IonInput,
+  IonDatetime, IonButton, IonCard,
+  IonCardHeader, IonCardTitle, IonCardContent,
+  IonButtons, IonIcon, IonSelect, IonSelectOption,
+  IonAccordionGroup, IonAccordion, IonRadioGroup, IonRadio,
+  IonTextarea
 } from '@ionic/vue'
 
-import { ref, onMounted } from 'vue'
+import { loadInspections, upsertInspection, removeInspection, setInspectionStatus } from '@/services/inspectionService'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { homeOutline } from 'ionicons/icons'
 
-const API_BASE = "https://my-json-server.typicode.com/ChrisBprog/LastFBopdr/inspections"
+const router = useRouter()
 
-function emptySchade() {
-  return {
-    locatie: '',
-    nieuw: false,
-    soort: '',
-    datum: '',
-    acuut: false,
-    omschrijving: ''
-  }
-}
-
-function emptyOnderhoud() {
-  return {
-    locatie: '',
-    soort: '',
-    acuut: false,
-    kosten: ''
-  }
-}
-
-const schade = ref(emptySchade())
-const onderhoud = ref(emptyOnderhoud())
+/* ================= STATE ================= */
 const inspections = ref([])
 
-function formatDate(date) {
-  if (!date) return "-"
-  return new Date(date).toLocaleDateString()
-}
+const editMode = ref(false)
+const editingId = ref(null)
 
-async function fetchInspections() {
-  try {
-    const response = await fetch(`${API_BASE}/inspections`)
-    inspections.value = await response.json()
-  } catch (error) {
-    console.error("Ophalen mislukt:", error)
+const emptyInspection = () => ({
+  id: null,
+  adres: '',
+  inspecteur: '',
+  datum: '', // ion-datetime gebruikt ISO string
+  status: 'open',
+
+  schade: {
+    locatie: '',
+    nieuw: null,
+    soort: '',
+    datum: '',
+    acuut: null,
+    omschrijving: ''
+  },
+
+  onderhoud: {
+    locatie: '',
+    soort: '',
+    acuut: null,
+    kosten: '',
+    opmerkingen: ''
+  },
+
+  installatie: {
+    locatie: '',
+    soort: '',
+    storingen: '',
+    testPdf: '',
+    goedgekeurd: null,
+    opmerkingen: ''
+  },
+
+  modificatie: {
+    bestaandePdf: '',
+    locatie: '',
+    uitgevoerdDoor: '',
+    beschrijving: '',
+    actie: '',
+    opmerkingen: ''
+  }
+})
+
+const inspection = ref(emptyInspection())
+
+/* ================= NORMALIZE (fix undefined errors) ================= */
+function normalizeInspection(raw) {
+  const base = emptyInspection()
+  return {
+    ...base,
+    ...raw,
+    schade: { ...base.schade, ...(raw?.schade || {}) },
+    onderhoud: { ...base.onderhoud, ...(raw?.onderhoud || {}) },
+    installatie: { ...base.installatie, ...(raw?.installatie || {}) },
+    modificatie: { ...base.modificatie, ...(raw?.modificatie || {}) },
+    status: raw?.status ?? base.status
   }
 }
 
-async function saveInspection() {
+/* ================= HELPERS ================= */
+function prettyDate(v) {
+  if (!v) return '-'
   try {
-
-    const newInspection = {
-      inspecteur: "Demo gebruiker",
-      adres: "Onbekend adres",
-      datum: new Date().toISOString(),
-      status: "open",
-      opmerkingAlgemeen: ""
-    }
-
-    const inspectionRes = await fetch(`${API_BASE}/inspections`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newInspection)
-    })
-
-    const savedInspection = await inspectionRes.json()
-
-    await fetch(`${API_BASE}/damages`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...schade.value,
-        inspectionId: savedInspection.id
-      })
-    })
-
-    await fetch(`${API_BASE}/maintenance`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...onderhoud.value,
-        inspectionId: savedInspection.id
-      })
-    })
-
-    schade.value = emptySchade()
-    onderhoud.value = emptyOnderhoud()
-
-    await fetchInspections()
-
-    alert("Inspectie succesvol opgeslagen")
-
-  } catch (error) {
-    console.error(error)
-    alert("Opslaan mislukt")
+    const d = new Date(v)
+    if (isNaN(d.getTime())) return String(v)
+    return d.toLocaleDateString('nl-NL')
+  } catch {
+    return String(v)
   }
 }
 
-onMounted(fetchInspections)
+/* ================= FETCH INIT ================= */
+onMounted(async () => {
+  const list = await loadInspections()
+  inspections.value = (Array.isArray(list) ? list : []).map(normalizeInspection)
+})
+
+/* ================= COMPUTED ================= */
+const openInspections = computed(() =>
+  inspections.value.filter(i => i?.status === 'open')
+)
+
+/* ================= CRUD ================= */
+function saveInspection() {
+  // altijd opslaan met volledige shape
+  const normalized = normalizeInspection(inspection.value)
+
+  const saved = upsertInspection(normalized)
+
+  const idx = inspections.value.findIndex(i => i.id === saved.id)
+  if (idx >= 0) inspections.value[idx] = normalizeInspection(saved)
+  else inspections.value.push(normalizeInspection(saved))
+
+  resetForm()
+}
+
+function editInspection(item) {
+  inspection.value = normalizeInspection(JSON.parse(JSON.stringify(item)))
+  editingId.value = item.id
+  editMode.value = true
+
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function deleteInspection(id) {
+  inspections.value = (removeInspection(id) || []).map(normalizeInspection)
+
+  if (editingId.value === id) resetForm()
+}
+
+function resetForm() {
+  inspection.value = emptyInspection()
+  editMode.value = false
+  editingId.value = null
+}
+
+function markCompleted(id) {
+  setInspectionStatus(id, 'completed')
+
+  const idx = inspections.value.findIndex(i => i.id === id)
+  if (idx !== -1) inspections.value[idx] = { ...inspections.value[idx], status: 'completed' }
+
+  if (editingId.value === id) resetForm()
+}
+
+/* ================= ROUTING ================= */
+function goHome() {
+  router.push('/dashboard')
+}
+
+function logout() {
+  localStorage.removeItem('user')
+  router.push('/login')
+}
 </script>
-
-<style scoped>
-.page-title {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-
-.save-button {
-  margin-top: 2rem;
-  --background: var(--ion-color-secondary);
-  font-weight: 600;
-}
-</style>
