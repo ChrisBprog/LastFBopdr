@@ -2,7 +2,6 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary">
-        <!-- HOME -->
         <ion-buttons slot="start">
           <ion-button color="light" @click="goHome">
             <ion-icon :icon="homeOutline" />
@@ -11,11 +10,8 @@
 
         <ion-title>Uitgevoerde inspecties</ion-title>
 
-        <!-- LOGOUT -->
         <ion-buttons slot="end">
-          <ion-button color="light" @click="logout">
-            Logout
-          </ion-button>
+          <ion-button color="light" @click="logout">Logout</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -35,8 +31,8 @@
           <ion-label>
             <h2>{{ titleOf(inspection) }}</h2>
             <p>
-              Inspecteur: {{ inspection.inspecteur || inspection.inspector || '-' }}<br />
-              Datum: {{ formatDate(inspection.datum || inspection.inspectionDate) }}
+              Inspecteur: {{ inspection.inspecteur || '-' }}<br />
+              Datum: {{ formatDate(inspection.datum) }}
             </p>
           </ion-label>
 
@@ -44,11 +40,8 @@
         </ion-item>
       </ion-list>
 
-      <p v-else class="empty">
-        Geen uitgevoerde inspecties
-      </p>
+      <p v-else class="empty">Geen uitgevoerde inspecties</p>
 
-      <!-- DETAILS -->
       <ion-card v-if="selectedInspection" class="details">
         <ion-card-header>
           <ion-card-title>Details</ion-card-title>
@@ -62,6 +55,10 @@
 
           <ion-button expand="block" fill="outline" @click="selectedInspection = null">
             Sluiten
+          </ion-button>
+
+          <ion-button expand="block" color="medium" @click="markOpen(selectedInspection.id)">
+            Zet terug naar open
           </ion-button>
         </ion-card-content>
       </ion-card>
@@ -78,20 +75,33 @@ import {
   IonRefresher, IonRefresherContent
 } from '@ionic/vue'
 
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { homeOutline } from 'ionicons/icons'
-import { loadInspections } from '@/services/inspectionService'
+import { useStore } from 'vuex'
 import { onIonViewWillEnter } from '@ionic/vue'
 
 const router = useRouter()
+const store = useStore()
 
-const inspections = ref([])
 const selectedInspection = ref(null)
 
 const completedInspections = computed(() =>
-  inspections.value.filter(i => i?.status === 'completed')
+  store.getters['inspections/completedInspections']
 )
+
+async function loadAll() {
+  await store.dispatch('inspections/loadInspections')
+}
+
+onMounted(loadAll)
+onIonViewWillEnter(loadAll)
+
+watch(completedInspections, () => {
+  if (!selectedInspection.value) return
+  const stillThere = completedInspections.value.some(i => i.id === selectedInspection.value.id)
+  if (!stillThere) selectedInspection.value = null
+})
 
 function goHome() {
   router.push('/dashboard')
@@ -103,29 +113,18 @@ function logout() {
 }
 
 function titleOf(item) {
-  return item.adres || item.title || item.location || `Inspectie #${item.id}`
+  return item.adres || `Inspectie #${item.id}`
 }
 
 function formatDate(value) {
   if (!value) return '-'
-  return new Date(value).toLocaleDateString('nl-NL')
-}
-
-function safeParse(json, fallback) {
   try {
-    return JSON.parse(json)
+    const d = new Date(value)
+    if (isNaN(d.getTime())) return String(value)
+    return d.toLocaleDateString('nl-NL')
   } catch {
-    return fallback
+    return String(value)
   }
-}
-
-// Netlify/Vite-safe pad
-function inspectionsJsonUrl() {
-  return `${import.meta.env.BASE_URL}inspections.json`
-}
-
-async function loadAll() {
-  inspections.value = await loadInspections()
 }
 
 function selectInspection(item) {
@@ -137,8 +136,10 @@ async function refresh(ev) {
   ev?.detail?.complete()
 }
 
-onMounted(loadAll)
-onIonViewWillEnter(loadAll)
+async function markOpen(id) {
+  await store.dispatch('inspections/markOpen', id)
+  selectedInspection.value = null
+}
 </script>
 
 <style scoped>

@@ -20,10 +20,10 @@
 
       <h2>{{ editMode ? 'Inspectie bewerken' : 'Nieuwe Inspectie' }}</h2>
 
-      <!-- ======= BASISGEGEVENS ======= -->
+      <!-- BASIS -->
       <ion-item>
         <ion-label position="stacked">Adres</ion-label>
-        <ion-input v-model="inspection.adres" placeholder="Bijv. Straat 1, 1234 AB" />
+        <ion-input v-model="inspection.adres" placeholder="Bijv. Hoofdstraat 10" />
       </ion-item>
 
       <ion-item>
@@ -44,7 +44,6 @@
         </ion-select>
       </ion-item>
 
-      <!-- ================= 4 MENU'S ================= -->
       <ion-accordion-group>
 
         <!-- 1 SCHADE -->
@@ -261,7 +260,7 @@
 
           <div style="display:flex; gap:8px; margin-top:12px; flex-wrap: wrap;">
             <ion-button size="small" @click="editInspection(item)">Bewerken</ion-button>
-            <ion-button size="small" color="success" @click="markCompleted(item.id)">Inspectie voltooid</ion-button>
+            <ion-button size="small" color="success" @click="markCompleted(item.id)">Mark completed</ion-button>
             <ion-button size="small" color="danger" @click="deleteInspection(item.id)">Verwijderen</ion-button>
           </div>
         </ion-card-content>
@@ -282,16 +281,15 @@ import {
   IonTextarea
 } from '@ionic/vue'
 
-import { loadInspections, upsertInspection, removeInspection, setInspectionStatus } from '@/services/inspectionService'
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { homeOutline } from 'ionicons/icons'
+import { useStore } from 'vuex'
 
 const router = useRouter()
+const store = useStore()
 
 /* ================= STATE ================= */
-const inspections = ref([])
-
 const editMode = ref(false)
 const editingId = ref(null)
 
@@ -299,48 +297,16 @@ const emptyInspection = () => ({
   id: null,
   adres: '',
   inspecteur: '',
-  datum: '', // ion-datetime gebruikt ISO string
+  datum: '',
   status: 'open',
-
-  schade: {
-    locatie: '',
-    nieuw: null,
-    soort: '',
-    datum: '',
-    acuut: null,
-    omschrijving: ''
-  },
-
-  onderhoud: {
-    locatie: '',
-    soort: '',
-    acuut: null,
-    kosten: '',
-    opmerkingen: ''
-  },
-
-  installatie: {
-    locatie: '',
-    soort: '',
-    storingen: '',
-    testPdf: '',
-    goedgekeurd: null,
-    opmerkingen: ''
-  },
-
-  modificatie: {
-    bestaandePdf: '',
-    locatie: '',
-    uitgevoerdDoor: '',
-    beschrijving: '',
-    actie: '',
-    opmerkingen: ''
-  }
+  schade: { locatie: '', nieuw: null, soort: '', datum: '', acuut: null, omschrijving: '' },
+  onderhoud: { locatie: '', soort: '', acuut: null, kosten: '', opmerkingen: '' },
+  installatie: { locatie: '', soort: '', storingen: '', testPdf: '', goedgekeurd: null, opmerkingen: '' },
+  modificatie: { bestaandePdf: '', locatie: '', uitgevoerdDoor: '', beschrijving: '', actie: '', opmerkingen: '' }
 })
 
 const inspection = ref(emptyInspection())
 
-/* ================= NORMALIZE (fix undefined errors) ================= */
 function normalizeInspection(raw) {
   const base = emptyInspection()
   return {
@@ -354,6 +320,43 @@ function normalizeInspection(raw) {
   }
 }
 
+/* ================= LOAD FROM VUEX ================= */
+onMounted(async () => {
+  await store.dispatch('inspections/loadInspections')
+})
+
+const openInspections = computed(() => store.getters['inspections/openInspections'])
+
+/* ================= ACTIONS ================= */
+async function saveInspection() {
+  const normalized = normalizeInspection(inspection.value)
+  await store.dispatch('inspections/upsertInspection', normalized)
+  resetForm()
+}
+
+function editInspection(item) {
+  inspection.value = normalizeInspection(JSON.parse(JSON.stringify(item)))
+  editingId.value = item.id
+  editMode.value = true
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+async function deleteInspection(id) {
+  await store.dispatch('inspections/removeInspection', id)
+  if (editingId.value === id) resetForm()
+}
+
+function resetForm() {
+  inspection.value = emptyInspection()
+  editMode.value = false
+  editingId.value = null
+}
+
+async function markCompleted(id) {
+  await store.dispatch('inspections/markCompleted', id)
+  if (editingId.value === id) resetForm()
+}
+
 /* ================= HELPERS ================= */
 function prettyDate(v) {
   if (!v) return '-'
@@ -364,60 +367,6 @@ function prettyDate(v) {
   } catch {
     return String(v)
   }
-}
-
-/* ================= FETCH INIT ================= */
-onMounted(async () => {
-  const list = await loadInspections()
-  inspections.value = (Array.isArray(list) ? list : []).map(normalizeInspection)
-})
-
-/* ================= COMPUTED ================= */
-const openInspections = computed(() =>
-  inspections.value.filter(i => i?.status === 'open')
-)
-
-/* ================= CRUD ================= */
-function saveInspection() {
-  // altijd opslaan met volledige shape
-  const normalized = normalizeInspection(inspection.value)
-
-  const saved = upsertInspection(normalized)
-
-  const idx = inspections.value.findIndex(i => i.id === saved.id)
-  if (idx >= 0) inspections.value[idx] = normalizeInspection(saved)
-  else inspections.value.push(normalizeInspection(saved))
-
-  resetForm()
-}
-
-function editInspection(item) {
-  inspection.value = normalizeInspection(JSON.parse(JSON.stringify(item)))
-  editingId.value = item.id
-  editMode.value = true
-
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-function deleteInspection(id) {
-  inspections.value = (removeInspection(id) || []).map(normalizeInspection)
-
-  if (editingId.value === id) resetForm()
-}
-
-function resetForm() {
-  inspection.value = emptyInspection()
-  editMode.value = false
-  editingId.value = null
-}
-
-function markCompleted(id) {
-  setInspectionStatus(id, 'completed')
-
-  const idx = inspections.value.findIndex(i => i.id === id)
-  if (idx !== -1) inspections.value[idx] = { ...inspections.value[idx], status: 'completed' }
-
-  if (editingId.value === id) resetForm()
 }
 
 /* ================= ROUTING ================= */
