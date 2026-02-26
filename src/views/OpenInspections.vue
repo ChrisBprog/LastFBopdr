@@ -260,7 +260,7 @@
 
           <div style="display:flex; gap:8px; margin-top:12px; flex-wrap: wrap;">
             <ion-button size="small" @click="editInspection(item)">Bewerken</ion-button>
-            <ion-button size="small" color="success" @click="markCompleted(item.id)">Mark completed</ion-button>
+            <ion-button size="small" color="success" @click="markCompleted(item.id)">Inspectie voltooid</ion-button>
             <ion-button size="small" color="danger" @click="deleteInspection(item.id)">Verwijderen</ion-button>
           </div>
         </ion-card-content>
