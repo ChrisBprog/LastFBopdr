@@ -1,92 +1,41 @@
-### Authenticatie
-De applicatie maakt gebruik van een gesimuleerd authenticatiesysteem met één vast gebruikersaccount.
-Na het invoeren van de juiste inloggegevens wordt Two-Factor Authentication (2FA) toegepast voor extra beveiliging.
-De 2FA-code is gesimuleerd en vast ingesteld voor demonstratiedoeleinden.
+### Inleiding
+Mijn project gaat over RealEstateCare. Dit is voor inspecteurs die inspecties bij bedrijven of woningen doen. Door middel van deze website kunnen zij nieuwe inspecties toevoegen, editten en voltooien. Het project is gemaakt in Vue + Ionic + Vuex. Er wordt ook gebruikt gemaakt van een "neppe" back-end door middel van een json server.  
 
-### State Management
-De applicatie maakt gebruik van Vuex voor centraal state management.
-Authenticatiegegevens en inspectiedata worden beheerd in aparte Vuex-modules, wat zorgt voor een duidelijke en schaalbare structuur.
-
-### Routing & Beveiliging
-De applicatie gebruikt Vue Router in combinatie met route guards.
-Pagina’s die beveiligd zijn vereisen een actieve loginstatus, anders wordt de gebruiker automatisch doorgestuurd naar het inlogscherm.
+### Login
+Het project bevat een simpele inlog. Met gebruikersnaam en wachtwoord. (Voor de opdracht is er 1 account aangemaakt.) Als deze zijn ingevoerd komt er een Two-Factor Authentication. Ook deze is voor de opdracht een vast gegeven maar zou uitgebreid kunnen worden naar een volledig functionerende 2FA. 
 
 ### Dashboard
-Het dashboard biedt een overzicht van de applicatie met interactieve tegels.
-Deze tegels tonen het aantal openstaande en voltooide inspecties en dienen als navigatie naar de bijbehorende pagina’s.
+Het dashboard is het begin scherm na de inlog. Deze bevat 4 tegels: Openstaande inspecties, Uitgevoerde inspecties, Instellingen en Knowledge base. 
+Door op een van de tegels te drukken word je genavigeerd naar de desbetreffende pagina. 
+
+### Openstaande inspecties
+Op deze pagina kan de inspecteur een nieuwe inspectie aanmaken of een openstaande inspectie aanpassen. Alle informatie is gedaan aan de hand van de beschrijving van de RealEstateCare. 
+Wanneer men op een open inspectie klikt kan men deze: bewerken, voltooien en verwijderen. 
+Bij het voltooien wordt deze naar de Uitgevoerde inspecties tegel gestuurd. Bij het bewerken kan men alle informatie aanpassen naar wat nodig is of na eventuele veranderingen binnen de inspectie. 
+
+### Uitgevoerde inspecties
+Op deze pagina kan men alle voltooide inspecties in zien. Mocht het nodig zijn kan men deze inspectie ook weer terug zetten naar Open Inspectie.
 
 ### Instellingen
-Via de instellingenpagina kan de gebruiker zijn accountgegevens aanpassen.
-Wijzigingen worden direct opgeslagen in de Vuex state zonder dat de gebruiker opnieuw hoeft in te loggen.
+Hier kan de gebruiker zijn account gegevens bekijken en aanpassen. 
 
-### Data & API
-De applicatie maakt gebruik van een externe JSON API (json-server) die inspectiegegevens levert vanuit een db.json-bestand.  
-De data wordt asynchroon opgehaald via de Fetch API en opgeslagen in Vuex state.
+### Knowledge base
+Hier kan de inspecteur kijken naar FAQ. 
 
-Om runtime errors te voorkomen is de state defensief ingericht, zodat componenten ook renderen voordat de API-call voltooid is.
+### State Management / Routing / Data & API
+Door gebruik te maken van Vuex zorg ik voor een overzichtelijk en schaalbaar project. Het is nu makkelijker om nieuwe pagina's toe te voegen. 
+Ook is er een routing bestand die er voor zorgt dat alles naar de juiste pagina gaat. Dit wederom voor een overzichtelijk project die goed te managen is. 
+De data gaat via het bestand inspections.json en word middels een API (json server) opgehaald. 
+Alles wordt voor de opdracht lokaal opgeslagen maar mocht dit een echte site worden of moeten zijn dan is dit aan te passen zodat alles juist aangepast en live is.
+De site is live via netlify. Dit is een makkelijk te gebruiken applicatie om de site te hosten. 
 
+### Usability
+Bij het maken van de applicatie heb ik geprobeerd het simpel te houden met een professionele uitstraling. Dit geldt ook voor de navigatie. Alle knoppen die nodig zijn, zijn duidelijk te vinden en functioneren. Bijvoorbeeld de logout en home button. Bij elke pagina hetzelfde dus daarom makkelijk en overzichtelijk wat het doet voor de gebruiker.
 
-
-
--------------
-
-
-
-## Verantwoording Security, Usability, Accessibility en Style guides & best practices
+### Accessibility / styling
+Dit sluit een beetje aan bij usability maar om beide goed en duidelijk te krijgen heb ik middels de huisstijlen van de opdracht de pagina gemaakt. Hier is gebruik gemaakt van primary en secondary colors. Om het makkelijk te maken in elke pagina. Hetzelfde geldt voor de toolbar, deze is overal gelijk en dus makkelijk en overzichtelijk mocht de stijl van het bedrijf veranderen. 
+De inlog pagina is rustig en heeft een strakke uitstraling zonder allemaal poespas.
 
 ### Security
-Binnen dit prototype is security op conceptueel en functioneel niveau toegepast. De applicatie maakt gebruik van een gesimuleerd authenticatiesysteem met vaste inloggegevens en een extra Two-Factor Authentication (2FA)-stap. Hierdoor wordt het principe van meerlagige beveiliging aangetoond.
+Ik heb voor dit project een eenvoudige vorm van authenticatie gebruikt. De route guards zorgen ervoor dat de pagina's alleen bereikbaar zijn voor gebruikers die zijn ingelogd. Omdat het om een opdracht gaat word alles lokaal opgeslagen en niet in een back-end. 
 
-Toegang tot beveiligde pagina’s wordt afgedwongen via Vue Router route guards (`meta.requiresAuth`). Niet-geauthenticeerde gebruikers worden automatisch doorgestuurd naar de loginpagina. Gevoelige acties zoals uitloggen en het aanpassen van accountgegevens zijn centraal afgehandeld via Vuex.
-
-
----
-
-### Usability (volgens de 10 heuristieken van Nielsen)
-Bij het ontwerpen van de interface is rekening gehouden met meerdere usability-heuristieken van Jakob Nielsen:
-
-- **Visibility of system status:** De gebruiker ziet duidelijke feedback bij inloggen, foutieve invoer en 2FA-validatie.
-- **Match between system and real world:** Terminologie zoals “Inspecties”, “Instellingen” en “Logout” sluit aan bij de doelgroep.
-- **User control and freedom:** Gebruikers kunnen altijd terug naar het dashboard via de home-knop of uitloggen.
-- **Consistency and standards:** Navigatie, kleuren en componentgebruik zijn consistent binnen de gehele applicatie.
-- **Error prevention & recovery:** Foutmeldingen bij onjuiste login of 2FA worden duidelijk gecommuniceerd.
-- **Recognition rather than recall:** Dashboard-tegels en iconen helpen gebruikers bij het herkennen van functies.
-
-Niet alle heuristieken zijn volledig uitgewerkt. Zo ontbreken geavanceerde undo-functies en uitgebreide foutafhandeling, wat acceptabel is binnen de scope van een prototype.
-
----
-
-### Accessibility
-De applicatie houdt deels rekening met accessibility:
-
-- Gebruik van semantische Ionic componenten (`IonButton`, `IonInput`, `IonLabel`)
-- Voldoende kleurcontrast door gebruik van het Ionic themasysteem
-- Duidelijke labels bij invoervelden
-- Logische focusvolgorde binnen formulieren
-
-De applicatie voldoet gedeeltelijk aan de WCAG 2.1-richtlijnen (niveau A / deels AA).  
-Wat nog ontbreekt of verbeterd kan worden:
-
-- Volledige toetsenbordnavigatie is niet expliciet getest
-- Geen expliciete ARIA-attributen toegevoegd
-
-Deze punten zijn bewust buiten scope gehouden, maar vormen duidelijke verbeterpunten voor verdere doorontwikkeling.
-
----
-
-### Style guides & best practices
-Bij de ontwikkeling is gebruikgemaakt van de best practices van Vue 3 en Ionic:
-
-- Component-based architectuur
-- Gebruik van Vuex voor centrale state management
-- Scheiding van verantwoordelijkheden (views, store, router)
-- Herbruikbare layoutpatronen (header met home + logout)
-- Consistent gebruik van Ionic UI componenten
-- Gebruik van Composition API waar passend
-
-De code is leesbaar, gestructureerd en onderhoudbaar opgezet, passend bij een professioneel front-end prototype.
-
----
-
-### Conclusie
-Mijn demo-applicatie laat een bewuste en onderbouwde toepassing zien van security, usability, accessibility en framework-best practices. Hoewel niet alle aspecten volledig zijn geïmplementeerd, zijn de belangrijkste principes aantoonbaar aanwezig en correct toegepast binnen de scope van dit project.
